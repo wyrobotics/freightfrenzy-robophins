@@ -15,6 +15,17 @@ public class Intake {
         leftIntake = hardwareMap.get(DcMotor.class, "leftIntake");
         rightIntake = hardwareMap.get(DcMotor.class, "rightIntake");
 
+        leftIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    }
+
+    public void setLeftPower(double power) {
+        leftIntake.setPower(power);
+    }
+
+    public void setRightPower(double power) {
+        rightIntake.setPower(power);
     }
 
 }

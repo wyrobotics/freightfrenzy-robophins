@@ -11,11 +11,14 @@ public class Spinner {
     DcMotor spinner;
 
     public Spinner(HardwareMap hardwareMap, Telemetry telemetry) {
+
         spinner = hardwareMap.get(DcMotor.class, "spinner");
+
+        spinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
     }
 
-    public void spin() { spinner.setPower(spinner.getPower() + 0.00001); }
-
-    public void stop() { spinner.setPower(0); }
+    public void spin(double power) { spinner.setPower(power); }
 
 }

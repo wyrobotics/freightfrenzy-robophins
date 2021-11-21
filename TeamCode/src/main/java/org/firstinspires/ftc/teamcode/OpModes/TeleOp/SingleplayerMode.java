@@ -1,16 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.sun.tools.javac.Main;
 
 import org.firstinspires.ftc.teamcode.Components.MainRobot;
 
 @TeleOp
-public class DrivebaseTele extends LinearOpMode {
+public class SingleplayerMode extends LinearOpMode {
 
-    private MainRobot mainRobot;
+    MainRobot mainRobot;
 
     @Override
     public void runOpMode() {
@@ -20,7 +18,7 @@ public class DrivebaseTele extends LinearOpMode {
         boolean leftTabDown = false;
         boolean rightTabDown = false;
 
-        double intakeDirection = 1;
+        double intakeDirection = 0.2;
         double leftIntakePower = 0;
         double rightIntakePower = 0;
 
@@ -33,44 +31,52 @@ public class DrivebaseTele extends LinearOpMode {
         while(opModeIsActive()) {
 
             //mainRobot.setDrivePower(
-              //      new Pose2d(gamepad1.left_stick_y,gamepad1.left_stick_x,-gamepad1.right_stick_x));
+            //      new Pose2d(gamepad1.left_stick_y,gamepad1.left_stick_x,-gamepad1.right_stick_x));
 
-            mainRobot.tempDrive(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
+            mainRobot.tempDrive(-gamepad1.left_stick_y,-gamepad1.left_stick_x,-gamepad1.right_stick_x);
 
-            if(gamepad2.left_bumper && !leftTabDown) {
+            if(gamepad1.dpad_left && !leftTabDown) {
                 leftTabDown = true;
                 leftIntakePower = leftIntakePower == 0 ? intakeDirection : 0;
                 mainRobot.intake.setLeftPower(leftIntakePower);
             }
-            if(!gamepad2.left_bumper && leftTabDown) {
+            if(!gamepad1.dpad_left && leftTabDown) {
                 leftTabDown = false;
             }
 
-            if(gamepad2.right_bumper && !rightTabDown) {
+            if(gamepad1.dpad_right && !rightTabDown) {
                 rightTabDown = true;
                 rightIntakePower = rightIntakePower == 0 ? intakeDirection : 0;
                 mainRobot.intake.setRightPower(rightIntakePower);
             }
-            if(!gamepad2.right_bumper && rightTabDown) {
+            if(!gamepad1.dpad_right && rightTabDown) {
                 rightTabDown = false;
             }
 
-            if(gamepad2.b && !bDown) {
+            if(gamepad1.b && !bDown) {
                 bDown = true;
                 intakeDirection *= -1;
+                rightIntakePower = rightIntakePower == 0 ? 0 : intakeDirection;
+                leftIntakePower = leftIntakePower == 0 ? 0 : intakeDirection;
+                mainRobot.intake.setRightPower(rightIntakePower);
+                mainRobot.intake.setLeftPower(leftIntakePower);
             }
-            if(!gamepad2.b && bDown) {
+            if(!gamepad1.b && bDown) {
                 bDown = false;
             }
 
             if(gamepad1.right_bumper) {
                 mainRobot.spinner.spin(0.8);
+            } else if(gamepad1.left_bumper) {
+                mainRobot.spinner.spin(-0.8);
             } else {
-                mainRobot.spinner.spin(gamepad1.right_trigger);
+                mainRobot.spinner.spin(gamepad1.right_trigger - gamepad1.left_trigger);
             }
 
+
+
             //mainRobot.extender.setExtenderPower(
-              //      (gamepad1.dpad_left ? 1 : 0) - (gamepad1.dpad_right ? 1 : 0));
+            //      (gamepad1.dpad_left ? 1 : 0) - (gamepad1.dpad_right ? 1 : 0));
 
             if(gamepad1.dpad_down) {
                 mainRobot.extender.increaseRotatorPosition();
