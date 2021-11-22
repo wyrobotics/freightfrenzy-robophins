@@ -68,6 +68,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
     private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
+    private double maxPower = 1;
+
     private TrajectoryFollower follower;
 
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
@@ -328,5 +330,25 @@ public class SampleMecanumDrive extends MecanumDrive {
         rightRear.setPower(0.7*(y - x - turn));
 
     }
+
+    public void discOrtho(double leftStickX, double leftStickY, double turningPower) {
+
+        double theta = Math.atan2(leftStickY, leftStickX);
+        double magnitude = Math.hypot(leftStickX, leftStickY);
+
+        double flbr = magnitude * Math.cos(theta - (Math.PI / 4));
+        double frbl = magnitude * Math.sin(theta - (Math.PI / 4));
+
+        //double rotChange = Math.min(Math.abs(turningPower),
+        //       Math.min(1 - Math.abs(flbr), 1 - Math.abs(frbl)));
+
+        leftFront.setPower(maxPower * (flbr - turningPower));
+        rightFront.setPower(maxPower * (frbl + turningPower));
+        leftRear.setPower(maxPower * (frbl - turningPower));
+        rightRear.setPower(maxPower * (flbr + turningPower));
+
+    }
+
+    public void setMaxPower(double power) { maxPower = power; }
 
 }
