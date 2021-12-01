@@ -25,7 +25,9 @@ public class PeterTeleOp extends LinearOpMode {
         boolean bDown = false;
 
         boolean aDown = false;
-        boolean releaserOpen = true ;
+        boolean releaserOpen = true;
+
+        //mainRobot.setMaxPower(0.5);
 
         waitForStart();
         while(opModeIsActive()) {
@@ -33,7 +35,7 @@ public class PeterTeleOp extends LinearOpMode {
             //mainRobot.setDrivePower(
             //      new Pose2d(gamepad1.left_stick_y,gamepad1.left_stick_x,-gamepad1.right_stick_x));
 
-            mainRobot.tempDrive(-gamepad1.left_stick_y,-gamepad1.left_stick_x,-gamepad1.right_stick_x);
+            mainRobot.discOrtho(-gamepad1.left_stick_y,-gamepad1.left_stick_x,-gamepad1.right_stick_x);
 
             if(gamepad1.right_bumper) {
                 mainRobot.intake.setRightPower(0.4);

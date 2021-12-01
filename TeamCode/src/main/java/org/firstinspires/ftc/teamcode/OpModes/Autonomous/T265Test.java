@@ -26,11 +26,11 @@ public class T265Test extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            //Trajectory mainTrajectory = mainRobot.trajectoryBuilder(initPose)
-              //      .splineToConstantHeading(new Vector2d(10,10), 0)
-                //    .build();
+            Trajectory mainTrajectory = mainRobot.trajectoryBuilder(initPose)
+                    .splineToConstantHeading(new Vector2d(10,10), 0)
+                    .build();
 
-            //mainRobot.followTrajectory(mainTrajectory);
+            mainRobot.followTrajectory(mainTrajectory);
 
             telemetry.addData("x: ", mainRobot.getPoseEstimate().getX());
             telemetry.addData("y: ", mainRobot.getPoseEstimate().getY());

@@ -29,6 +29,8 @@ public class DrivebaseTele extends LinearOpMode {
         boolean aDown = false;
         boolean releaserOpen = true ;
 
+        mainRobot.setMaxPower(0.5);
+
         waitForStart();
         while(opModeIsActive()) {
 
@@ -36,6 +38,8 @@ public class DrivebaseTele extends LinearOpMode {
               //      new Pose2d(gamepad1.left_stick_y,gamepad1.left_stick_x,-gamepad1.right_stick_x));
 
             mainRobot.tempDrive(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
+
+
 
             if(gamepad2.left_bumper && !leftTabDown) {
                 leftTabDown = true;
