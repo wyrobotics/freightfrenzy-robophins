@@ -9,7 +9,10 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.video.BackgroundSubtractor;
+import org.opencv.video.Video;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -51,7 +54,7 @@ public class OpenCVSampler {
             @Override
             public void onError(int errorCode)
             {
-
+                camera.stopStreaming();
             }
         });
 
@@ -95,11 +98,18 @@ public class OpenCVSampler {
 
                 }
 
+                contour.release();
+
             }
 
             Imgproc.rectangle(input, biggestRect, new Scalar(200,0,0), 2);
 
+            //Imgproc.drawContours(input, pinkContours, 2, new Scalar(0,0,255), 2, 1, hierarchy);
+            //Imgproc.drawContours(input, pinkContours, -1, new Scalar(0,0,200));
+
             contourX = biggestRect.x;
+
+            pinkContours = null;
 
             return input;
 
@@ -107,27 +117,44 @@ public class OpenCVSampler {
 
         private List<MatOfPoint> pinkContours(Mat input) {
 
-            Mat inputRed = new Mat();
-            Mat inputGreen = new Mat();
-            Mat inputBlue = new Mat();
+            Mat inputRedMin = new Mat();
+            Mat inputGreenMin = new Mat();
+            Mat inputBlueMin = new Mat();
+            Mat inputRedMax = new Mat();
+            Mat inputGreenMax = new Mat();
+            Mat inputBlueMax = new Mat();
             Mat pinkMask = new Mat(input.size(), 0);
 
-            //Imgproc.GaussianBlur(input, input, new Size(3,3), 0);
+            Imgproc.GaussianBlur(input, input, new Size(3,3), 0);
 
             List<Mat> channels = new ArrayList<Mat>();
             Core.split(input,channels);
 
-            Imgproc.threshold(channels.get(0), inputRed, 170, 230, Imgproc.THRESH_BINARY);
-            Imgproc.threshold(channels.get(1), inputGreen, 20, 70, Imgproc.THRESH_BINARY);
-            Imgproc.threshold(channels.get(2), inputBlue, 120, 140, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(0), inputRedMin, 120, 255, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(0), inputRedMax, 200, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(channels.get(1), inputGreenMin, 5, 255, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(1), inputGreenMax, 35, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(channels.get(2), inputBlueMin, 55, 255, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(2), inputBlueMax, 90, 255, Imgproc.THRESH_BINARY_INV);
 
-            Core.bitwise_and(inputRed, inputGreen, pinkMask);
-            Core.bitwise_and(inputBlue, pinkMask, pinkMask);
+            Core.bitwise_and(inputRedMin, inputGreenMin, pinkMask);
+            Core.bitwise_and(inputBlueMin, pinkMask, pinkMask);
+            Core.bitwise_and(inputRedMax, pinkMask, pinkMask);
+            Core.bitwise_and(inputBlueMax, pinkMask, pinkMask);
+            Core.bitwise_and(inputGreenMax, pinkMask, pinkMask);
 
             List<MatOfPoint> pinkContours = new ArrayList<MatOfPoint>();
             Mat hierarchy = new Mat();
 
             Imgproc.findContours(pinkMask, pinkContours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+
+            inputRedMin.release();
+            inputGreenMin.release();
+            inputBlueMin.release();
+            inputRedMax.release();
+            inputGreenMax.release();
+            inputBlueMax.release();
+            pinkMask.release();
 
             return pinkContours;
 

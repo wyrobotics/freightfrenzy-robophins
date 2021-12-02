@@ -4,23 +4,24 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Components.MainRobot;
+import org.firstinspires.ftc.teamcode.Components.Software.OpenCVSampler;
 
 @TeleOp
 public class OpenCVTest extends LinearOpMode {
 
-    MainRobot mainRobot;
+    OpenCVSampler openCVSampler;
 
     @Override
     public void runOpMode() {
 
-        mainRobot = new MainRobot(hardwareMap, telemetry);
+        openCVSampler = new OpenCVSampler(hardwareMap, telemetry);
 
-        mainRobot.openCVSampler.initOpenCVCamera();
+        openCVSampler.initOpenCVCamera();
 
         waitForStart();
         while(opModeIsActive()) {
 
-            telemetry.addData("Pink: ", mainRobot.openCVSampler.getPinkX());
+            telemetry.addData("Pink: ", openCVSampler.getPinkX());
             telemetry.update();
 
         }
