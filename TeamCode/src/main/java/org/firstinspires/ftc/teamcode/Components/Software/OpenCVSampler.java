@@ -28,7 +28,7 @@ public class OpenCVSampler {
     public OpenCVSampler(HardwareMap hardwareMap, Telemetry telemetry) {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
         //WebcamName webcamName = hardwareMap.get(WebcamName.class, "webcam");
         //OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
@@ -42,8 +42,8 @@ public class OpenCVSampler {
             @Override
             public void onOpened()
             {
-                camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                 camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
+                camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                 //GPU acceleration may cause errors -J
 
                 camera.setPipeline(new OpenCVSampler.Pipeline());
@@ -117,9 +117,9 @@ public class OpenCVSampler {
             List<Mat> channels = new ArrayList<Mat>();
             Core.split(input,channels);
 
-            Imgproc.threshold(channels.get(0), inputRed, 160, 255, Imgproc.THRESH_BINARY);
-            Imgproc.threshold(channels.get(1), inputGreen, 0, 100, Imgproc.THRESH_BINARY);
-            Imgproc.threshold(channels.get(2), inputBlue, 120, 160, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(0), inputRed, 170, 230, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(1), inputGreen, 20, 70, Imgproc.THRESH_BINARY);
+            Imgproc.threshold(channels.get(2), inputBlue, 120, 140, Imgproc.THRESH_BINARY);
 
             Core.bitwise_and(inputRed, inputGreen, pinkMask);
             Core.bitwise_and(inputBlue, pinkMask, pinkMask);
