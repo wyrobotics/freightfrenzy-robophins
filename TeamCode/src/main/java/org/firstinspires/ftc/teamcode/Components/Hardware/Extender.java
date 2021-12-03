@@ -22,12 +22,24 @@ public class Extender {
         rotator = hardwareMap.get(Servo.class, "rotator");
         releaser = hardwareMap.get(Servo.class, "releaser");
 
+        inSwitch = hardwareMap.get(DigitalChannel.class, "inSwitch");
+        outSwitch = hardwareMap.get(DigitalChannel.class, "outSwitch");
+
         extender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 
 
-    public void setExtenderPower(double power) { extender.setPower(power); }
+    public void setExtenderPower(double power) {
+
+        double finalPower = power;
+
+        if(inSwitch.getState()) { finalPower = Math.max(0, finalPower); }
+        if(outSwitch.getState()) { finalPower = Math.min(0, finalPower); }
+
+        extender.setPower(finalPower);
+
+    }
 
     public void increaseRotatorPosition() {
         //rotator.setPosition(rotator.getPosition() + 0.00001);
