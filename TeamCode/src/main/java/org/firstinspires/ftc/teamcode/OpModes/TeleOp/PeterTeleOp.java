@@ -61,6 +61,12 @@ public class PeterTeleOp extends LinearOpMode {
                 mainRobot.spinner.spin(0);
             }
 
+            if(gamepad1.dpad_up) {
+                mainRobot.extender.setExtenderPower(0.5);
+            } else if(gamepad1.dpad_down) {
+                mainRobot.extender.setExtenderPower(-0.5);
+            }
+
 
             telemetry.addData("X: ",mainRobot.getPoseEstimate().getX());
             telemetry.addData("Y: ",mainRobot.getPoseEstimate().getY());

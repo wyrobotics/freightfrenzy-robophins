@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -22,10 +23,10 @@ public class FieldCentricTeleOp extends LinearOpMode {
 
             double stickX = gamepad1.left_stick_x, stickY = gamepad1.left_stick_y;
 
-            mainRobot.discOrtho(
-                    (stickX * Math.cos(-heading)) - (stickY * Math.sin(-heading)),
-                    (stickX * Math.sin(-heading)) + (stickY * Math.cos(-heading)),
-            gamepad1.right_stick_x);
+            mainRobot.tempDrive(
+                    (stickX * Math.sin(heading)) + (stickY * Math.cos(heading)),
+                    (stickX * Math.cos(heading)) - (stickY * Math.sin(heading)),
+            -gamepad1.right_stick_x);
 
         }
 
