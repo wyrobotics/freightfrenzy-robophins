@@ -7,7 +7,6 @@ import com.sun.tools.javac.Main;
 
 import org.firstinspires.ftc.teamcode.Components.MainRobot;
 
-@TeleOp
 public class DrivebaseTele extends LinearOpMode {
 
     private MainRobot mainRobot;

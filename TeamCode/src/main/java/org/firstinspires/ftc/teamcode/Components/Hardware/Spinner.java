@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Components.Hardware;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,14 +9,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Spinner {
 
-    DcMotor spinner;
+    CRServo spinner;
 
     public Spinner(HardwareMap hardwareMap, Telemetry telemetry) {
 
-        spinner = hardwareMap.get(DcMotor.class, "spinner");
-
-        spinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        spinner = hardwareMap.get(CRServo.class, "spinner");
 
     }
 
