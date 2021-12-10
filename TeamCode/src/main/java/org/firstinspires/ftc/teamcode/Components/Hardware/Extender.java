@@ -34,8 +34,8 @@ public class Extender {
 
         double finalPower = power;
 
-        if(inSwitch.getState()) { finalPower = Math.max(0, finalPower); }
-        if(outSwitch.getState()) { finalPower = Math.min(0, finalPower); }
+        //if(inSwitch.getState()) { finalPower = Math.max(0, finalPower); }
+        //if(outSwitch.getState()) { finalPower = Math.min(0, finalPower); }
 
         extender.setPower(finalPower);
 
