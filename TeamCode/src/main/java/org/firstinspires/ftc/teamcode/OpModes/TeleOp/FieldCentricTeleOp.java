@@ -23,10 +23,10 @@ public class FieldCentricTeleOp extends LinearOpMode {
 
             double stickX = gamepad1.left_stick_x, stickY = gamepad1.left_stick_y;
 
-            mainRobot.tempDrive(
-                    (stickX * Math.sin(heading)) + (stickY * Math.cos(heading)),
-                    (stickX * Math.cos(heading)) - (stickY * Math.sin(heading)),
-            -gamepad1.right_stick_x);
+            mainRobot.setWeightedDrivePower(new Pose2d(
+                    -((stickX * Math.sin(heading)) + (stickY * Math.cos(heading))),
+                    -((stickX * Math.cos(heading)) - (stickY * Math.sin(heading))),
+            -gamepad1.right_stick_x));
 
             if(gamepad1.right_bumper) {
                 mainRobot.intake.setRightPower(0.4);
@@ -67,6 +67,11 @@ public class FieldCentricTeleOp extends LinearOpMode {
             } else {
                 mainRobot.lifter.stop();
             }
+
+            telemetry.addData("X: ", mainRobot.getPoseEstimate().getX());
+            telemetry.addData("Y: ", mainRobot.getPoseEstimate().getY());
+            telemetry.addData("Heading: ", mainRobot.getPoseEstimate().getHeading());
+            telemetry.update();
 
         }
 

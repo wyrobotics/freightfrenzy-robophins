@@ -36,7 +36,7 @@ public class DrivebaseTele extends LinearOpMode {
             //mainRobot.setDrivePower(
               //      new Pose2d(gamepad1.left_stick_y,gamepad1.left_stick_x,-gamepad1.right_stick_x));
 
-            mainRobot.tempDrive(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
+            //mainRobot.tempDrive(gamepad1.left_stick_x,gamepad1.left_stick_y,-gamepad1.right_stick_x);
 
 
 

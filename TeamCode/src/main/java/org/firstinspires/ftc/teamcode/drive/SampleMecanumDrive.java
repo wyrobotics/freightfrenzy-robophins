@@ -127,8 +127,8 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: reverse any motors using DcMotor.setDirection()
 
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
@@ -321,17 +321,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         return new ProfileAccelerationConstraint(maxAccel);
     }
 
-
-    public void tempDrive(double x, double y, double turn) {
-
-        leftFront.setPower(0.7*(y - x + turn));
-        rightFront.setPower(0.7*(y + x + turn));
-        leftRear.setPower(0.7*(y + x - turn));
-        rightRear.setPower(0.7*(y - x - turn));
-
-    }
-
-    public void discOrtho(double leftStickX, double leftStickY, double turningPower) {
+    private void discOrtho(double leftStickX, double leftStickY, double turningPower) {
 
         double theta = Math.atan2(leftStickY, leftStickX);
         double magnitude = Math.hypot(leftStickX, leftStickY);
