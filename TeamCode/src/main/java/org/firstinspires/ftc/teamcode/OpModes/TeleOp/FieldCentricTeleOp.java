@@ -52,17 +52,23 @@ public class FieldCentricTeleOp extends LinearOpMode {
                 mainRobot.spinner.spin(0);
             }
 
-            if(gamepad1.dpad_up) {
+            if(gamepad1.x) {
+                mainRobot.lifter.unslap();
+            } else if(gamepad1.y) {
+                mainRobot.lifter.slap();
+            }
+
+            if(gamepad1.dpad_right) {
                 mainRobot.extender.setExtenderPower(0.5);
-            } else if(gamepad1.dpad_down) {
+            } else if(gamepad1.dpad_left) {
                 mainRobot.extender.setExtenderPower(-0.5);
             } else {
                 mainRobot.extender.setExtenderPower(0);
             }
 
-            if(gamepad1.y) {
+            if(gamepad1.dpad_up) {
                 mainRobot.lifter.lift();
-            } else if(gamepad1.x) {
+            } else if(gamepad1.dpad_down) {
                 mainRobot.lifter.drop();
             } else {
                 mainRobot.lifter.stop();
