@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.Localizer;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Transform2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.spartronics4915.lib.T265Camera;
@@ -43,7 +44,7 @@ public class RealsenseLocalizer implements Localizer {
             slamera = new T265Camera(cameraRobotOffset, encoderMeasurementCovariance, hardwareMap.appContext);
             slamera.start();
         }
-        slamera.setPose(new com.arcrobotics.ftclib.geometry.Pose2d());
+        slamera.setPose(new com.arcrobotics.ftclib.geometry.Pose2d(0,0,new Rotation2d(0)));
         //telemetry.addData("Started!", "Started!");
     }
 
@@ -57,8 +58,8 @@ public class RealsenseLocalizer implements Localizer {
         T265Camera.CameraUpdate update = slamera.getLastReceivedCameraUpdate();
         lastConfidence = update.confidence;
 
-        telemetry.addData("Confidence: ", String.valueOf(lastConfidence));
-        telemetry.addData("Started? ", slamera.isStarted());
+        //telemetry.addData("Confidence: ", String.valueOf(lastConfidence));
+        //telemetry.addData("Started? ", slamera.isStarted());
 
         // Convert meters to inches
         return Pose2dConversionUtil.metersToInches(
