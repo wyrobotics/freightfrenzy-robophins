@@ -12,8 +12,8 @@ public class Lifter {
     DcMotor lifter;
     Servo slapper;
 
-    TouchSensor upSwitch;
-    TouchSensor downSwitch;
+    public TouchSensor upSwitch;
+    public TouchSensor downSwitch;
 
     public Lifter(HardwareMap hardwareMap, Telemetry telemetry) {
 
@@ -33,7 +33,7 @@ public class Lifter {
     public void drop() { moveLifter(downSwitch.isPressed() ? 0 : -0.5); }
     public void stop() { moveLifter(0); }
 
-    public void slap() { slapper.setPosition(0.8); }
-    public void unslap() { slapper.setPosition(0.2); }
+    public void slap() { slapper.setPosition(0.3); }
+    public void unslap() { slapper.setPosition(0.8); }
 
 }
